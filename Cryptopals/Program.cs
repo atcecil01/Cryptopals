@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Cryptopals
@@ -7,12 +8,13 @@ namespace Cryptopals
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter plain text: ");
-            string input = "1c0111001f010100061a024b53535009181c";
-            Console.WriteLine("Enter Key: ");
-            string key = "686974207468652062756c6c277320657965";
-            string result = Set1.CombineXOR(input, key);
+            Console.WriteLine("Enter hex string: ");
+            string input = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
+            //Console.WriteLine("Enter Key: ");
+            //string key = "";
+            Dictionary<int, string> result = Set1.XORDecipher(input);
             Console.WriteLine(result);
+
         }
 
 
