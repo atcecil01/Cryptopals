@@ -23,9 +23,7 @@ namespace Cryptopals
                 XORResult[i] = (byte)(ByteArray1[i] ^ ByteArray2[i]);
 
             }
-
             string HexValue = ByteArrayToString(XORResult);
-            Console.WriteLine("Hex: " + HexValue);
             return HexValue;
         }
 
@@ -49,9 +47,9 @@ namespace Cryptopals
             return hex.ToString();
         }
 
-        public static Dictionary<int, string> XORDecipher(string input)
+        public static List<XORBuffer> XORDecipher(string input)
         {
-            var outputs = new Dictionary<int, string>();
+            var outputs = new List<XORBuffer>();
             byte[] buffer = StringToByteArray(input);
             var XORResult = new byte[buffer.Length];
             foreach (var key in Enumerable.Range(0, 127))
@@ -61,8 +59,8 @@ namespace Cryptopals
                     XORResult[i] = (byte)(buffer[i] ^ key);
                 }
                 double coefficient = CheckFrequency(Encoding.ASCII.GetString(XORResult));
-                outputs.Add(key, Encoding.ASCII.GetString(XORResult));
-                Console.WriteLine(outputs[key] + "\nFrequency Coefficient: " + coefficient + "\n");
+                XORBuffer xorBuffer = new XORBuffer(key, Encoding.ASCII.GetString(XORResult), coefficient);
+                outputs.Add(xorBuffer);
             }
             return outputs;
         }
@@ -76,12 +74,10 @@ namespace Cryptopals
             {
                 if(LetterFrequency.TryGetValue(c.Key, out var frequency))
                 {
-                    //TODO: Verify equation source and accuracy
                     coefficient += Math.Sqrt(frequency * c.Count / input.Length);
                 }
             }
             return coefficient;
-            //TODO: how to store coefficient with plaintext?
         }
 
         public static readonly Dictionary<char, double> LetterFrequency = new Dictionary<char, double>
@@ -93,5 +89,11 @@ namespace Cryptopals
             {'P', 1.82}, {'B', 1.49}, {'V', 1.11}, {'K', 0.69}, {'X', 0.17}, {'Q', 0.11},
             {'J', 0.10}, {'Z', 0.07 }, {' ', 0.19}
         };
+
+        public static XORBuffer GetHighestFequency(List<XORBuffer> input)
+        {
+            XORBuffer mostLikely = input.OrderByDescending(x => x.Frequency).FirstOrDefault();
+            return mostLikely;
+        }
     }
 }
