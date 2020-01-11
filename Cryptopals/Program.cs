@@ -11,24 +11,10 @@ namespace Cryptopals
         static void Main(string[] args)
         {
             Console.WriteLine("Working...");
-            // returns the current directory path to a string variable
-            string currentDirectory = Directory.GetCurrentDirectory();
-            // Instantiates a new DirectoryInfo object with the current directory(provides additional properties and methods)
-            DirectoryInfo directory = new DirectoryInfo(currentDirectory);
-            var fileName = Path.Combine(directory.FullName, "data.txt");
-            var readerResults = stringReader(fileName);
-            var XORResults = new List<XORBuffer>();
-            var mostLikelyList = new List<XORBuffer>();
-            string finalResult = "";
-            foreach(string line in readerResults)
-            {
-                XORResults = Set1.XORDecipher(line);
-                XORBuffer mostLikely = Set1.GetHighestFequency(XORResults);
-                mostLikelyList.Add(mostLikely);
-                XORBuffer mostLikelyFinal = Set1.GetHighestFequency(mostLikelyList);
-                finalResult = mostLikelyFinal.XORResult;
-            }
-            Console.WriteLine("Solution: " + finalResult);
+            string message = "Burning 'em, if you ain't quick and nimble I go crazy when I hear a cymbal";
+            string key = "ICE";
+            string result = Set1.repeatingXOR(message, key);
+            Console.WriteLine(result);
             Console.WriteLine("Complete");
         }
 

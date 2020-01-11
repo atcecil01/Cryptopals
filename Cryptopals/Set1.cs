@@ -7,6 +7,28 @@ namespace Cryptopals
 {
     class Set1
     {
+        public static string repeatingXOR(string message, string key)
+        {
+            // XOR's a message against a repeating key
+            string expandedkey = ExpandKey(message, key);
+            string hexMessage = StringToHex(message);
+            string hexKey = StringToHex(expandedkey);
+            string result = CombineXOR(hexMessage, hexKey);
+            return result;
+        }
+        public static string ExpandKey(string hex, string key)
+        {
+            var expandedKey = string.Empty;
+            while (expandedKey.Length < hex.Length)
+            {
+                expandedKey += key;
+            }
+            while (expandedKey.Length > hex.Length)
+            {
+                expandedKey = expandedKey.Remove((expandedKey.Length) - 1, 1);
+            }
+            return expandedKey;
+        }
         public static string ConvertHexToBase64(string hexString)
         {
             string result = Convert.ToBase64String(StringToByteArray(hexString));
@@ -15,6 +37,7 @@ namespace Cryptopals
 
         public static string CombineXOR(string string1, string string2)
         {
+            //XOR's each byte in two strings of equal length
             byte[] ByteArray1 = StringToByteArray(string1);
             byte[] ByteArray2 = StringToByteArray(string2);
             var XORResult = new byte[ByteArray1.Length];
@@ -27,7 +50,13 @@ namespace Cryptopals
             return HexValue;
         }
 
-
+        public static string StringToHex(string input)
+        {
+            byte[] buffer = Encoding.Default.GetBytes(input);
+            var hexString = BitConverter.ToString(buffer);
+            hexString = hexString.Replace("-", "");
+            return hexString;
+        }
         public static byte[] StringToByteArray(string input)
         {
             byte[] buffer = new byte[input.Length / 2];
