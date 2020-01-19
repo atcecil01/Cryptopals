@@ -11,9 +11,9 @@ namespace Cryptopals
         static void Main(string[] args)
         {
             Console.WriteLine("Working...");
-            string message = "Burning 'em, if you ain't quick and nimble I go crazy when I hear a cymbal";
-            string key = "ICE";
-            string result = Set1.repeatingXOR(message, key);
+            string message = "this is a test";
+            string key = "wokka wokka!!!";
+            var result = Set1.GetHammingDistance(message, key);
             Console.WriteLine(result);
             Console.WriteLine("Complete");
         }

@@ -7,6 +7,25 @@ namespace Cryptopals
 {
     class Set1
     {
+        public static int GetHammingDistance(string str1, string str2)
+        {
+            if (str1.Length != str2.Length) throw new ArgumentException("Values must be same length");
+
+            byte[] x = Encoding.ASCII.GetBytes(str1);
+            byte[] y = Encoding.ASCII.GetBytes(str2);
+
+            string xstr = string.Join(" ", x.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0')));
+            string ystr = string.Join(" ", y.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0')));
+
+            int i = 0, distance = 0;
+            while (i < xstr.Length)
+            {
+                if (xstr[i] != ystr[i])
+                    distance++;
+                i++;
+            }
+            return distance;
+        }
         public static string repeatingXOR(string message, string key)
         {
             // XOR's a message against a repeating key
